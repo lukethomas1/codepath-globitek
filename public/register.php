@@ -1,6 +1,9 @@
 <?php
   require_once('../private/initialize.php');
   require_once('../private/functions.php');
+  require_once('../private/db_credentials.php');
+
+  $db = db_connect();
 
   // Set default values for all variables the page needs.
 
@@ -17,47 +20,11 @@
 
     // Perform Validations
     // Hint: Write these in private/validation_functions.php
-    $errors = []
+    $errors = check_errors($first_name, $last_name, $email, $username);
 
-    # First name
-    if(is_blank($first_name)) {
-      array_push($errors, blank_error("First name"))
-    }
-    elseif(!has_length($first_name, ['min' => 2, 'max' => 255])) {
-      array_push($errors, length_error("First name", 2, 255))
-    }
+    $num_errors = count($errors);
 
-    # Last name
-    if(is_blank($last_name)) {
-      array_push($errors, blank_error("Last name"))
-    }
-    elseif(!has_length($last_name, ['min' => 2, 'max' => 255])) {
-      array_push($errors, length_error("Last name", 2, 255))
-    }
-
-    # Email
-    if(is_blank($email)) {
-      array_push($errors, blank_error("Email"))
-    }
-    elseif(!has_valid_email_format($email)) {
-      array_push($errors, format_error("Email"))
-    }
-
-    # Username
-    if(is_blank($username)) {
-      array_push($errors, blank_error("Username"))
-    }
-    elseif(!has_length($username, ['min' => 8, 'max' => 255])) {
-      array_push($errors, length_error("Username", 8))
-    }
-
-    $num_errors = count($errors)
-
-    if($num_errors > 0) {
-      display_errors($errors)
-    }
-    // if there were no errors, submit data to database
-    else {      
+    if($num_errors == 0) {   
       // Write SQL INSERT statement
       // $sql = "";
 
@@ -80,17 +47,13 @@
 
 ?>
 
-<?php $page_title = 'Register'; ?>
 <?php include(SHARED_PATH . '/header.php'); ?>
 
 <div id="main-content">
   <h1>Register</h1>
   <p>Register to become a Globitek Partner.</p>
 
-  <?php
-    // TODO: display any form errors here
-    // Hint: private/functions.php can help
-  ?>
+  <?php display_errors($errors); ?>
 
   <!-- TODO: HTML form goes here -->
   <form action="register.php" method="post">
@@ -105,3 +68,5 @@
 </div>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
+</body>
+</html>
