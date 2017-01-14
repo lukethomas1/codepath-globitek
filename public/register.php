@@ -42,6 +42,9 @@
       //   db_close($db);
       //   exit;
       // }
+
+      // Redirect ot succes page
+      header('Location: ./registration_success.php');
     }
   }
 
@@ -53,14 +56,23 @@
   <h1>Register</h1>
   <p>Register to become a Globitek Partner.</p>
 
-  <?php display_errors($errors); ?>
+  <?php
+    if(is_post_request()) {
+      echo display_errors($errors);
+    }
+  ?>
 
   <!-- TODO: HTML form goes here -->
   <form action="register.php" method="post">
+    First Name:
     <input type="text" name="first_name" value="" />
+    Last Name:
     <input type="text" name="last_name" value="" /><br />
+    Email:
     <input type="text" name="email" value="" /><br />
+    Username:
     <input type="text" name="username" value="" /><br />
+    Password:
     <input type="password" name="password" value="" /><br />
     <input type="submit" name="submit" value="Submit" />
   </form>
