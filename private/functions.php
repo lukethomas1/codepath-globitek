@@ -18,7 +18,7 @@
   }
 
   function is_post_request() {
-    return $_SERVER['REQUEST_METHOD'] == 'POST';
+    return isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] == 'POST' : False;
   }
 
   function display_errors($errors) {

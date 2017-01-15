@@ -9,14 +9,19 @@
 
   // if this is a POST request, process the form
   // Hint: private/functions.php can help
+  $first_name = '';
+  $last_name = '';
+  $email = '';
+  $username = '';
+  $password = '';
   if(is_post_request()) {
 
     // Confirm that POST values are present before accessing them.
-    $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
-    $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
-    $email = isset($_POST['email']) ? $_POST['email'] : '';
-    $username = isset($_POST['username']) ? $_POST['username'] : '';
-    $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     // Perform Validations
     // Hint: Write these in private/validation_functions.php
@@ -65,15 +70,15 @@
   <!-- TODO: HTML form goes here -->
   <form action="register.php" method="post">
     First Name:
-    <input type="text" name="first_name" value="" />
+    <input type="text" name="first_name" value="<?php echo $first_name ?>"/>
     Last Name:
-    <input type="text" name="last_name" value="" /><br />
+    <input type="text" name="last_name" value="<?php echo $last_name ?>" /><br />
     Email:
-    <input type="text" name="email" value="" /><br />
+    <input type="text" name="email" value="<?php echo $email ?>" /><br />
     Username:
-    <input type="text" name="username" value="" /><br />
+    <input type="text" name="username" value="<?php echo $username ?>" /><br />
     Password:
-    <input type="password" name="password" value="" /><br />
+    <input type="password" name="password" value="<?php echo $password ?>" /><br />
     <input type="submit" name="submit" value="Submit" />
   </form>
 
