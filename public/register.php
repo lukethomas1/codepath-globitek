@@ -3,56 +3,52 @@
   require_once('../private/functions.php');
   require_once('../private/db_credentials.php');
 
+  // Connect to database
   $db = db_connect();
 
-  // Set default values for all variables the page needs.
-
-  // if this is a POST request, process the form
-  // Hint: private/functions.php can help
+  // Initialize variables
   $first_name = '';
   $last_name = '';
   $email = '';
   $username = '';
-  $password = '';
-  if(is_post_request()) {
 
-    // Confirm that POST values are present before accessing them.
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+  if(is_post_request()) {
+    // Check to make sure post value is there before setting
+    $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
+    $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+    $username = isset($_POST['username']) ? $_POST['username'] : '';
 
     // Perform Validations
-    // Hint: Write these in private/validation_functions.php
     $errors = check_errors($first_name, $last_name, $email, $username);
-
     $num_errors = count($errors);
 
+    // If there were no errors, insert into sql database and redirect
     if($num_errors == 0) {   
       // Write SQL INSERT statement
-      // $sql = "";
+      $sql = "";
+      $sql .= "INSERT INTO users (first_name, last_name, email, username, created_at) VALUES ('" 
+       . $first_name . "', '"
+       . $last_name . "', '"
+       . $email . "', '"
+       . $username . "', '"
+       . time() . "');";
+      echo $sql;
 
       // For INSERT statments, $result is just true/false
-      // $result = db_query($db, $sql);
-      // if($result) {
-      //   db_close($db);
-
-      //   TODO redirect user to success page
-
-      // } else {
-      //   // The SQL INSERT statement failed.
-      //   // Just show the error, not the form
-      //   echo db_error($db);
-      //   db_close($db);
-      //   exit;
-      // }
-
-      // Redirect ot succes page
-      header('Location: ./registration_success.php');
+      $result = db_query($db, $sql);
+      if($result) {
+        db_close($db);
+        header('Location: ./registration_success.php');
+      } else {
+        // The SQL INSERT statement failed.
+        // Just show the error, not the form
+        echo db_error($db);
+        db_close($db);
+        exit;
+      }
     }
   }
-
 ?>
 
 <?php include(SHARED_PATH . '/header.php'); ?>
@@ -69,16 +65,14 @@
 
   <!-- TODO: HTML form goes here -->
   <form action="register.php" method="post">
-    First Name:
-    <input type="text" name="first_name" value="<?php echo $first_name ?>"/>
-    Last Name:
+    First Name:<br />
+    <input type="text" name="first_name" value="<?php echo $first_name ?>"/><br />
+    Last Name:<br />
     <input type="text" name="last_name" value="<?php echo $last_name ?>" /><br />
-    Email:
+    Email:<br />
     <input type="text" name="email" value="<?php echo $email ?>" /><br />
-    Username:
-    <input type="text" name="username" value="<?php echo $username ?>" /><br />
-    Password:
-    <input type="password" name="password" value="<?php echo $password ?>" /><br />
+    Username:<br />
+    <input type="text" name="username" value="<?php echo $username ?>" /><br /><br />
     <input type="submit" name="submit" value="Submit" />
   </form>
 
