@@ -54,6 +54,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
+First time with sql, took some time to create the database and write the insert statement.
+
 ## License
 
     Copyright [2016] [Luke Thomas]
