@@ -14,10 +14,10 @@
 
   if(is_post_request()) {
     // Check to make sure post value is there before setting
-    $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
-    $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
-    $email = isset($_POST['email']) ? $_POST['email'] : '';
-    $username = isset($_POST['username']) ? $_POST['username'] : '';
+    $first_name = isset($_POST['first_name']) ? htmlspecialchars($_POST['first_name']) : '';
+    $last_name = isset($_POST['last_name']) ? htmlspecialchars($_POST['last_name']) : '';
+    $email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
+    $username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '';
 
     // Perform Validations
     $errors = check_errors($first_name, $last_name, $email, $username);
@@ -32,7 +32,7 @@
        . $last_name . "', '"
        . $email . "', '"
        . $username . "', '"
-       . time() . "');";
+       . date("Y-m-d H:i:s") . "');";
       echo $sql;
 
       // For INSERT statments, $result is just true/false
