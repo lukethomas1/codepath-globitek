@@ -63,19 +63,15 @@
   }
 ?>
 
-<?php include(SHARED_PATH . '/header.php'); ?>
-
 <div id="main-content">
   <h1>Register</h1>
   <p>Register to become a Globitek Partner.</p>
-
   <?php
     if(is_post_request()) {
       echo display_errors($errors);
     }
   ?>
 
-  <!-- TODO: HTML form goes here -->
   <form action="register.php" method="post">
     First Name:<br />
     <input type="text" name="first_name" value="<?php echo $first_name ?>"/><br />
@@ -87,9 +83,6 @@
     <input type="text" name="username" value="<?php echo $username ?>" /><br /><br />
     <input type="submit" name="submit" value="Submit" />
   </form>
-
 </div>
-
-<?php include(SHARED_PATH . '/footer.php'); ?>
 </body>
 </html>

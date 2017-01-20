@@ -30,17 +30,17 @@ The following **required** functionality is completed:
   - [X] Write an SQL statement which will insert a new record into the globitek.users table using the submitted form values.
 - [X] Redirect the user to a confirmation page.
   - [X] Redirect the user to the new page.
-- [ ] Sanitize all dynamic output for HTML.
+- [X] Sanitize all dynamic output for HTML.
  
 
 The following advanced user stories are optional:
 
-- [ ] Bonus 1: Validate that form values contain only whitelisted characters.
-  - [ ] first_name, last_name: letters, spaces, symbols: - , . '
-  - [ ] username: letters, numbers, symbols: _
-  - [ ] email: letters, numbers, symbols: _ @ .
+- [X] Bonus 1: Validate that form values contain only whitelisted characters.
+  - [X] first_name, last_name: letters, spaces, symbols: - , . '
+  - [X] username: letters, numbers, symbols: _
+  - [X] email: letters, numbers, symbols: _ @ .
   
-- [ ] Bonus 2: Validate the uniqueness of the username.
+- [X] Bonus 2: Validate the uniqueness of the username.
 
 ## Video Walkthrough
 
