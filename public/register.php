@@ -3,9 +3,6 @@
   require_once('../private/functions.php');
   require_once('../private/db_credentials.php');
 
-  // Connect to database
-  $db = db_connect();
-
   // Initialize variables
   $first_name = '';
   $last_name = '';
@@ -24,28 +21,43 @@
     $num_errors = count($errors);
 
     // If there were no errors, insert into sql database and redirect
-    if($num_errors == 0) {   
-      // Write SQL INSERT statement
-      $sql = "";
-      $sql .= "INSERT INTO users (first_name, last_name, email, username, created_at) VALUES ('" 
-       . $first_name . "', '"
-       . $last_name . "', '"
-       . $email . "', '"
-       . $username . "', '"
-       . date("Y-m-d H:i:s") . "');";
-      echo $sql;
+    if($num_errors == 0) {
+      // Connect to database
+      $db = db_connect();
+      $sql_select = "SELECT username FROM users";
+      $result_select = db_query($db, $sql_select);
+      $match = False;
 
-      // For INSERT statments, $result is just true/false
-      $result = db_query($db, $sql);
-      if($result) {
-        db_close($db);
-        header('Location: ./registration_success.php');
+      // Check for uniqueness
+      while($name = $result_select->fetch_assoc()) {
+        $name = $name["username"];
+        if($name == $username) {
+          $match = True;
+        }
+      }
+
+      if(!$match) {
+        $sql = "";
+        $sql .= "INSERT INTO users (first_name, last_name, email, username, created_at) VALUES ('" 
+         . $first_name . "', '"
+         . $last_name . "', '"
+         . $email . "', '"
+         . $username . "', '"
+         . date("Y-m-d H:i:s") . "');";
+
+        $result = db_query($db, $sql);
+        if($result) {
+          db_close($db);
+          header('Location: ./registration_success.php');
+        } else {
+          // The SQL INSERT statement failed.
+          // Just show the error, not the form
+          echo db_error($db);
+          db_close($db);
+          exit;
+        }
       } else {
-        // The SQL INSERT statement failed.
-        // Just show the error, not the form
-        echo db_error($db);
-        db_close($db);
-        exit;
+        array_push($errors, "Username is taken.");
       }
     }
   }
